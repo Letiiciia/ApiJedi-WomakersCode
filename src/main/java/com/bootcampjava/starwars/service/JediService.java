@@ -27,7 +27,7 @@ public class JediService {
 
     public List<Jedi> findAll() {
         logger.info("Bring all the Jedis from the Galaxy");
-        return this.findAll();
+        return this.jediRepository.findAll();
     }
 
     public Jedi save(Jedi jedi) {
@@ -35,15 +35,17 @@ public class JediService {
         return this.jediRepository.save(jedi);
     }
 
-    public boolean update(Jedi jedi) {
+    public Optional<Jedi> update(Jedi jedi, Integer id) {
         boolean updated = false;
 
-        Jedi j = this.jediRepository.save(jedi);
+        Optional<Jedi> jediUpdate = this.jediRepository.findById(id);
 
-        if(j != null) {
+        jediUpdate = Optional.ofNullable(this.jediRepository.save(jedi));
+
+        if(jediUpdate != null) {
             updated = true;
         }
-        return updated;
+        return jediUpdate;
     }
 
     public boolean delete() {

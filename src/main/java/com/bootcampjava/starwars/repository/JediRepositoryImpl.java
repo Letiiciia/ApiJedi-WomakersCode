@@ -6,11 +6,13 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
+
 import javax.sql.DataSource;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -28,8 +30,6 @@ public class JediRepositoryImpl implements JediRepository {
                 .withCatalogName("jedis")
                 .usingGeneratedKeyColumns("id");
     }
-
-
 
 
     @Override
@@ -64,26 +64,27 @@ public class JediRepositoryImpl implements JediRepository {
     }
 
     @Override
-    public boolean update(Jedi jedi) {
+    public boolean update(Jedi jedi, Integer id) {
         return this.jdbcTemplate.update("UPDATE jedis SET nome=?, strength=?, version=? WHERE id=?",
                 jedi.getName(),
                 jedi.getStrength(),
                 jedi.getVersion(),
-                jedi.getId()) == 1;
+                id) == id;
     }
 
     @Override
     public Jedi save(Jedi jedi) {
-        Map<String, Object> parameters = new HashMap<>(1);
-        parameters.put("id", jedi.getId());
-        parameters.put("name", jedi.getName());
-        parameters.put("strength", jedi.getStrength());
-        parameters.put("version", jedi.getVersion());
-
-       this.simpleJdbcInsert.withTableName("jedis").execute(parameters);
+        Jedi newJedi = new Jedi();
+        newJedi.setId(jedi.getId());
+        newJedi.setName(jedi.getName());
+        newJedi.setStrength(jedi.getStrength());
+        newJedi.setVersion(jedi.getVersion());
 
 
-        return jedi;
+        this.jdbcTemplate.update("INSERT INTO jedis VALUES(?, ?, ?, ?)", newJedi.getId(), newJedi.getName(), newJedi.getStrength(), newJedi.getVersion());
+
+
+        return newJedi;
     }
 
     @Override

@@ -11,6 +11,7 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.junit.jupiter.api.Assertions;
 
+import java.util.List;
 import java.util.Optional;
 
 @SpringBootTest
@@ -50,5 +51,16 @@ public class JediTestService {
         //assert
         Assertions.assertEquals(this.jediService.findById(2), Optional.empty());
     }
+
+//
+//    public void testFindAll() {
+//
+//        //cenario
+//
+//        //execução
+//        List<Jedi> list =
+//
+//        //assert
+//    }
 
 }

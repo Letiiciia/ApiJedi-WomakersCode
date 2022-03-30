@@ -10,7 +10,7 @@ public interface JediRepository {
 
     List<Jedi> findAll();
 
-    boolean update(Jedi jedi);
+    boolean update(Jedi jedi, Integer id);
 
     Jedi save(Jedi jedi);
 

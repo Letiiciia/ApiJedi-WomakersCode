@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.List;
 
 @RestController
 public class JediController {
@@ -49,4 +50,26 @@ public class JediController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
+
+    @GetMapping("/jedis")
+    public ResponseEntity<?> getAllJedis() {
+        List jedis = this.jediService.findAll();
+
+        try {
+            return ResponseEntity
+                    .created(new URI("/jedi/"))
+                    .body(jedis);
+        } catch (URISyntaxException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+
+    }
+
+    @PostMapping(("/update/{id}"))
+    public ResponseEntity updateJedi(@RequestBody Jedi jedi, @RequestParam Integer id) {
+        this.jediService.update(jedi, id);
+        return ResponseEntity.status(HttpStatus.OK).build();
+
+    }
+
 }
