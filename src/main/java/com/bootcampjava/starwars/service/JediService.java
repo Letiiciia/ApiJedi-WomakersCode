@@ -35,20 +35,26 @@ public class JediService {
         return this.jediRepository.save(jedi);
     }
 
-    public Optional<Jedi> update(Jedi jedi, Integer id) {
-        boolean updated = false;
+    public Jedi update(Jedi jedi) {
 
-        Optional<Jedi> jediUpdate = this.jediRepository.findById(id);
+        Optional<Jedi> found = this.findById(jedi.getId());
+        found.get().setId(jedi.getId());
+        found.get().setName(jedi.getName());
+        found.get().setStrength(jedi.getStrength());
+        found.get().setVersion(jedi.getVersion());
 
-        jediUpdate = Optional.ofNullable(this.jediRepository.save(jedi));
+        Jedi jedi1 = found.get();
 
-        if(jediUpdate != null) {
-            updated = true;
-        }
-        return jediUpdate;
+        this.delete(jedi.getId());
+        this.save(jedi1);
+
+        return found.get();
+
     }
 
-    public boolean delete() {
+
+    public boolean delete(Integer id) {
+        this.jediRepository.delete(id);
         return true;
     }
 }

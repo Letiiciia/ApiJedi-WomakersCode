@@ -64,12 +64,12 @@ public class JediRepositoryImpl implements JediRepository {
     }
 
     @Override
-    public boolean update(Jedi jedi, Integer id) {
+    public boolean update(Jedi jedi) {
         return this.jdbcTemplate.update("UPDATE jedis SET nome=?, strength=?, version=? WHERE id=?",
                 jedi.getName(),
                 jedi.getStrength(),
                 jedi.getVersion(),
-                id) == id;
+                jedi.getId()) == jedi.getId();
     }
 
     @Override
