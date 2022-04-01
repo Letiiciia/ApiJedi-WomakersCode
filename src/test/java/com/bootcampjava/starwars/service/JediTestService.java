@@ -2,14 +2,13 @@ package com.bootcampjava.starwars.service;
 
 import com.bootcampjava.starwars.model.Jedi;
 import com.bootcampjava.starwars.repository.JediRepositoryImpl;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.junit.jupiter.api.Assertions;
 
 import java.util.List;
 import java.util.Optional;
@@ -52,15 +51,19 @@ public class JediTestService {
         Assertions.assertEquals(this.jediService.findById(2), Optional.empty());
     }
 
-//
-//    public void testFindAll() {
-//
-//        //cenario
-//
-//        //execução
-//        List<Jedi> list =
-//
-//        //assert
-//    }
+
+    @Test
+    @DisplayName("Should return all jedis")
+    public void testFindAll() {
+
+        //cenario
+
+        //execução
+        List<Jedi> list = this.jediService.findAll();
+
+        //assert
+        Assertions.assertTrue(!list.equals(0));
+
+    }
 
 }

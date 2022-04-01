@@ -67,15 +67,18 @@ public class JediController {
 
     @PutMapping("/update")
     public ResponseEntity updateJedi(@RequestBody Jedi jedi) {
-        Jedi newJedi =this.jediService.update(jedi);
-        return ResponseEntity.status(HttpStatus.OK).body(newJedi);
+        Jedi newJedi = this.jediService.update(jedi);
+        if (newJedi != null) {
+            return ResponseEntity.status(HttpStatus.OK).body(newJedi);
+        }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 
     }
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity deleteJedi(@PathVariable Integer id) {
         this.jediService.delete(id);
-        return  ResponseEntity.status(HttpStatus.OK).build();
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 
 }

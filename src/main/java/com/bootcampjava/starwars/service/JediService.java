@@ -38,18 +38,21 @@ public class JediService {
     public Jedi update(Jedi jedi) {
 
         Optional<Jedi> found = this.findById(jedi.getId());
-        found.get().setId(jedi.getId());
-        found.get().setName(jedi.getName());
-        found.get().setStrength(jedi.getStrength());
-        found.get().setVersion(jedi.getVersion());
+        if(findById(jedi.getId())!= null) {
+            found.get().setId(jedi.getId());
+            found.get().setName(jedi.getName());
+            found.get().setStrength(jedi.getStrength());
+            found.get().setVersion(jedi.getVersion());
 
-        Jedi jedi1 = found.get();
+            Jedi jedi1 = found.get();
 
-        this.delete(jedi.getId());
-        this.save(jedi1);
+            this.delete(jedi.getId());
+            this.save(jedi1);
 
-        return found.get();
-
+            return found.get();
+        }
+        
+        return null;
     }
 
 
